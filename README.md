@@ -24,7 +24,7 @@ Starts the backend/API service.
 ### Customers
 
 * View customers with pagination.
-* Search customers by Name.
+* Search customers by Name.  (Added debouncetime to efficiently manage api calls and search results) (Use distinctUntilChanged to prevent duplicate API calls.)
 * Add a new customer.
 * Edit customer details.
 * Delete a customer.
@@ -32,7 +32,7 @@ Starts the backend/API service.
 ### Products
 
 * View products with pagination.
-* Search products by Name.
+* Search products by Name. (Added debouncetime to efficiently manage api calls and search results)(Use distinctUntilChanged to prevent duplicate API calls.)
 * Add a new product.
 * Edit product details.
 * Delete a product.
@@ -40,8 +40,14 @@ Starts the backend/API service.
 ### Orders
 
 * View orders with pagination.
-* Search orders by Order No.
+* Search orders by Order No.  (Added debounce time to efficiently manage api calls and search results)(Use distinctUntilChanged to prevent duplicate API calls.)
 * Create a new order.
 * View order details.
-* Navigate back from the order details page to the previous page.
+* Navigate back from the order list page from details and create order pages
 
+
+### Optimizations Used
+
+(Added debounce time to efficiently manage api calls and search results)
+(Use distinctUntilChanged to prevent duplicate API calls)
+(used Lazy Loading routes for features when needed)
