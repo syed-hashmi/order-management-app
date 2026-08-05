@@ -1,11 +1,146 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+import { RouterLink } from '@angular/router';
+
+import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+
+
+
+import { NotificationService } from '../../../shared/services/notification-service';
+import { OrdersService } from '../services/orders-service';
+import { Order } from '../services/models/order.model';
 
 @Component({
   selector: 'app-orders-list',
-  imports: [],
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+    MatSnackBarModule,
+    RouterLink
+  ],
   templateUrl: './orders-list.html',
-  styleUrl: './orders-list.scss',
+  styleUrl: './orders-list.scss'
 })
-export class OrdersList {
+export class OrdersList implements OnInit {
+
+  displayedColumns: string[] = [
+    'id',
+    'customerName',
+    'orderDate',
+    'items',
+    'status',
+    'actions'
+  ];
+
+  searchControl = new FormControl('', { nonNullable: true });
+
+  dataSource = new MatTableDataSource<Order>();
+
+  pageIndex = 0;
+  pageSize = 5;
+  totalRecords = 0;
+
+  @ViewChild(MatPaginator)
+  paginator!: MatPaginator;
+
+  constructor(
+    private orderService: OrdersService,
+    private notification: NotificationService,
+    private destroyRef: DestroyRef
+  ) { }
+
+  ngOnInit(): void {
+    this.loadOrders();
+    this.initializeSearch();
+  }
+
+  loadOrders(): void {
+    this.orderService.getOrders(this.pageIndex + 1, this.pageSize)
+      .subscribe({
+        next: (response: HttpResponse<Order[]>) => {
+          this.dataSource.data = response.body ?? [];
+          this.totalRecords =
+            Number(response.headers.get('X-Total-Count'));
+        },
+        error: (err: HttpErrorResponse) => {
+          this.notification.error(
+            'Failed to load orders.'
+          );
+        }
+      });
+  }
+
+
+
+  private initializeSearch(): void {
+    this.searchControl.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(searchTerm => {
+        this.pageIndex = 0;
+        this.paginator?.firstPage();
+
+        if (!searchTerm.trim()) {
+          this.loadOrders();
+          return;
+        }
+        this.searchOrders(searchTerm);
+
+      });
+  }
+
+
+  private searchOrders(searchTerm: string) {
+    this.orderService
+      .searchOrders(searchTerm,
+        this.pageIndex + 1,
+        this.pageSize)
+      .subscribe({
+        next: (response: HttpResponse<Order[]>) => {
+          this.dataSource.data =
+            response.body ?? [];
+          this.totalRecords =
+            Number(response.headers.get('X-Total-Count'));
+        },
+        error: () => {
+          this.notification.error(
+            'Failed to search orders.'
+          );
+        }
+      });
+  }
+  pageChanged(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+
+    const search = this.searchControl.value.trim();
+    if (search) {
+      this.searchOrders(search);
+    } else {
+      this.loadOrders();
+    }
+  }
 
 }

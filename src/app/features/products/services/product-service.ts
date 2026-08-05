@@ -15,14 +15,18 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, pageSize: number): Observable<HttpResponse<Product[]>> {
-    const params = new HttpParams()
-      .set('_page', page)
-      .set('_limit', pageSize)
-      .set('_order', 'desc')
-      .set('_sort', 'id');
+  getProducts(page?: number, pageSize?: number): Observable<HttpResponse<Product[]>> {
+    if (page && pageSize) {
+      const params = new HttpParams()
+        .set('_page', page)
+        .set('_limit', pageSize)
+        .set('_order', 'desc')
+        .set('_sort', 'id');
 
-    return this.http.get<Product[]>(this.apiUrl, { params, observe: 'response' });
+      return this.http.get<Product[]>(this.apiUrl, { params, observe: 'response' });
+    }
+    else
+      return this.http.get<Product[]>(this.apiUrl, { observe: 'response' });
   }
 
   getProductById(id: number): Observable<Product> {

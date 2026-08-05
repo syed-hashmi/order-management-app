@@ -38,12 +38,6 @@ export const routes: Routes = [
                         .then(m => m.CustomerForm)
             },
             {
-                path: 'orders',
-                loadComponent: () =>
-                    import('./features/orders/orders-list/orders-list')
-                        .then(m => m.OrdersList)
-            },
-            {
                 path: 'products',
                 loadComponent: () =>
                     import('./features/products/products-list/products-list')
@@ -67,6 +61,30 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./features/products/product-form/product-form')
                         .then(m => m.ProductForm)
+            },
+            {
+                path: 'orders',
+                loadComponent: () =>
+                    import('./features/orders/orders-list/orders-list')
+                        .then(m => m.OrdersList)
+            },
+            {
+                path: 'order/new',
+                loadComponent: () =>
+                    import('./features/orders/order-form/order-form')
+                        .then(m => m.OrderForm)
+            },
+            {
+                path: 'order/:id/view',
+                loadComponent: () =>
+                    import('./features/orders/order-details/order-details')
+                        .then(m => m.OrderDetails)
+            },
+            {
+                path: 'order/:id/edit',
+                loadComponent: () =>
+                    import('./features/orders/order-form/order-form')
+                        .then(m => m.OrderForm)
             },
 
         ]

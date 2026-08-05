@@ -15,14 +15,18 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-  getCustomers(page: number, pageSize: number): Observable<HttpResponse<Customer[]>> {
-    const params = new HttpParams()
-      .set('_page', page)
-      .set('_limit', pageSize)
-      .set('_order', 'desc')
-      .set('_sort','id');
+  getCustomers(page?: number, pageSize?: number): Observable<HttpResponse<Customer[]>> {
+    if (page && pageSize) {
+      const params = new HttpParams()
+        .set('_page', page)
+        .set('_limit', pageSize)
+        .set('_order', 'desc')
+        .set('_sort', 'id');
+      return this.http.get<Customer[]>(this.apiUrl, { params, observe: 'response' });
+    }
+    else
+      return this.http.get<Customer[]>(this.apiUrl, { observe: 'response' });
 
-    return this.http.get<Customer[]>(this.apiUrl, { params, observe: 'response' });
   }
 
   getCustomerById(id: number): Observable<Customer> {

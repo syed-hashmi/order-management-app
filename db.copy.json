@@ -43,15 +43,15 @@
       "createdDate": "2026-07-15"
     },
     {
+      "id": 8,
       "fullName": "syed sarosh",
       "email": "test@test.com",
       "phoneNumber": "",
       "dateOfBirth": "",
       "gender": "",
-      "address": "",
+      "address": "test",
       "isActive": true,
-      "createdDate": "2026-08-05",
-      "id": 8
+      "createdDate": "2026-08-05"
     }
   ],
   "products": [
@@ -95,13 +95,16 @@
       "name": "Headphones",
       "sku": "HP1006",
       "price": 250,
-      "stockQuantity": 50
+      "stockQuantity": 52,
+      "isActive": true,
+      "createdDate": "2026-08-05"
     }
   ],
   "orders": [
     {
       "id": 1,
       "customerId": 1,
+      "customerName": "John Smith",
       "orderDate": "2026-08-01",
       "status": "Completed",
       "items": [
@@ -120,6 +123,7 @@
     {
       "id": 2,
       "customerId": 2,
+      "customerName": "Sarah Johnson",
       "orderDate": "2026-08-02",
       "status": "Pending",
       "items": [
@@ -133,6 +137,7 @@
     {
       "id": 3,
       "customerId": 3,
+      "customerName": "Michael Brown",
       "orderDate": "2026-08-03",
       "status": "Completed",
       "items": [
@@ -151,6 +156,7 @@
     {
       "id": 4,
       "customerId": 5,
+      "customerName": "David Wilson",
       "orderDate": "2026-08-04",
       "status": "Pending",
       "items": [
@@ -160,6 +166,61 @@
           "unitPrice": 250
         }
       ]
+    },
+    {
+      "customer": {
+        "id": 3,
+        "fullName": "Michael Brown",
+        "email": "michael.brown@example.com",
+        "createdDate": "2026-07-06"
+      },
+      "status": "Pending",
+      "items": [
+        {
+          "productId": 3,
+          "quantity": 1,
+          "unitPrice": 300
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "Michael Brown",
+      "customerId": 3,
+      "id": 5
+    },
+    {
+      "customer": {
+        "id": 8,
+        "fullName": "syed sarosh",
+        "email": "test@test.com",
+        "phoneNumber": "",
+        "dateOfBirth": "",
+        "gender": "",
+        "address": "test",
+        "isActive": true,
+        "createdDate": "2026-08-05"
+      },
+      "status": "Pending",
+      "items": [
+        {
+          "productId": 5,
+          "quantity": 1,
+          "unitPrice": 450
+        },
+        {
+          "productId": 3,
+          "quantity": 1,
+          "unitPrice": 300
+        },
+        {
+          "productId": 5,
+          "quantity": 4,
+          "unitPrice": 450
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "syed sarosh",
+      "customerId": 8,
+      "id": 6
     }
   ]
 }
