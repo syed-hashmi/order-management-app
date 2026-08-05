@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Customer } from '../../customers/services/models/customer.model';
 import { Product } from '../../products/services/models/product.model';
@@ -12,13 +12,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { OrdersService } from '../services/orders-service';
+import { OrderService } from '../services/order-service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification-service';
 import { CustomerService } from '../../customers/services/customer-service';
 import { ProductService } from '../../products/services/product-service';
 import { forkJoin } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-order-form',
@@ -45,11 +46,12 @@ export class OrderForm {
 
   constructor(
     private fb: FormBuilder,
-    private orderService: OrdersService,
+    private orderService: OrderService,
     private customerService: CustomerService,
     private productService: ProductService,
     private notification: NotificationService,
-    private router: Router
+    private router: Router,
+    private destroyRef: DestroyRef,
   ) { }
 
   ngOnInit(): void {
@@ -70,7 +72,9 @@ export class OrderForm {
     forkJoin({
       customers: this.customerService.getCustomers(),
       products: this.productService.getProducts()
-    }).subscribe({
+    })
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
       next: ({ customers, products }: { customers: HttpResponse<Customer[]>, products: HttpResponse<Product[]> }) => {
         this.customers = customers?.body ?? [];
         this.products = products?.body ?? [];
@@ -90,7 +94,7 @@ export class OrderForm {
   addItem(): void {
     this.items.push(
       this.fb.group({
-        productId: ['', Validators.required],
+        product: ['', Validators.required],
         quantity: [1, [Validators.required, Validators.min(1)]],
         unitPrice: [0]
       })
@@ -102,11 +106,11 @@ export class OrderForm {
   }
 
   productChanged(index: number): void {
-    const productId =
-      this.items.at(index).get('productId')?.value;
-
     const product =
-      this.products.find(p => p.id === productId);
+      this.items.at(index).get('product')?.value;
+
+    // const product =
+    //   this.products.find(p => p.id === productId);
     if (product) {
       this.items.at(index)
         .patchValue({
@@ -132,15 +136,25 @@ export class OrderForm {
       return;
     }
     debugger;
+
+    const { customer,items, ...formValue } = this.orderForm.getRawValue();
+
     const order = {
-      ...this.orderForm.getRawValue(),
+      ...formValue,
+      items: items.map((item: any) => ({
+        productId: item.product.id,
+        productName: item.product.name,
+        quantity: item.quantity,
+        unitPrice: item.unitPrice
+      })),
       orderDate: new Date().toISOString().split('T')[0],
       status: 'Pending',
-      customerName:  this.orderForm.getRawValue().customer?.fullName,
-      customerId:  this.orderForm.getRawValue()?.customer?.id
+      customerName: this.orderForm.getRawValue().customer?.fullName,
+      customerId: this.orderForm.getRawValue()?.customer?.id
     };
 
     this.orderService.createOrder(order)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: () => {
           this.notification.success('Order created successfully.');

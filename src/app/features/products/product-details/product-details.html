@@ -1,1 +1,47 @@
-<p>product-details works!</p>
+<mat-card class="product-form-card">
+
+    <mat-card-header>
+        <mat-card-title>
+            Product Details
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <h3>Product Information</h3>
+        <div class="form-grid">
+            <div>
+                <strong>Product ID#</strong>
+                <p>{{ product?.id }}</p>
+            </div>
+
+            <div>
+                <strong>Product Name</strong>
+                <p>{{ product?.name }}</p>
+            </div>
+
+            <div>
+                <strong>Product SKU</strong>
+                <p>{{ product?.sku }}</p>
+            </div>
+
+            <div>
+                <strong>Price</strong>
+                <p>{{ product?.price }}</p>
+            </div>
+
+            <div>
+                <strong>Stock Quantity</strong>
+                <p>{{ product?.stockQuantity }}</p>
+            </div>
+
+        </div>
+
+
+        <div class="button-container">
+            <button mat-stroked-button color="primary" routerLink="/products">
+                Back
+            </button>
+        </div>
+    </mat-card-content>
+
+</mat-card>

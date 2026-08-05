@@ -116,6 +116,7 @@ export class ProductsList {
 
   deleteProduct(id: number) {
     this.productService.deleteProduct(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: Product) => {
           this.notification.success('Product deleted successfully.');

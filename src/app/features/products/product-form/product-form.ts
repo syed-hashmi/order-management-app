@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification-service';
@@ -16,6 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ProductService } from '../services/product-service';
 import { Product } from '../services/models/product.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-product-form',
@@ -44,6 +45,7 @@ export class ProductForm {
     private notification: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
+    private destroyRef: DestroyRef,
   ) { }
 
   ngOnInit() {
@@ -58,6 +60,7 @@ export class ProductForm {
       if (id) {
         this.productId = +id;
         this.productService.getProductById(+id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(product => {
             this.isEditMode = true;
             this.productForm.patchValue(product);
@@ -103,6 +106,7 @@ export class ProductForm {
     };
 
     this.productService.createProduct(product)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (product: Product) => {
           debugger
@@ -132,6 +136,7 @@ export class ProductForm {
     };
 
     this.productService.updateProduct(product)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (product: Product) => {
           this.notification.success('Product updated successfully.');

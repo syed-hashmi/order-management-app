@@ -124,6 +124,7 @@ export class CustomersList implements OnInit {
 
   deleteCustomer(id: number) {
     this.customerService.deleteCustomer(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: Customer) => {
           this.notification.success('Customer deleted successfully.');

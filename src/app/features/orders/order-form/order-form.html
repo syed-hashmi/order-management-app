@@ -39,8 +39,8 @@
                 <div class="item-row" *ngFor="let item of items.controls; let i=index" [formGroupName]="i">
                     <mat-form-field appearance="outline">
                         <mat-label>Product</mat-label>
-                        <mat-select formControlName="productId" (selectionChange)="productChanged(i)">
-                            <mat-option *ngFor="let product of products" [value]="product.id">
+                        <mat-select formControlName="product" (selectionChange)="productChanged(i)">
+                            <mat-option *ngFor="let product of products" [value]="product">
                                 {{product.name}}
                             </mat-option>
                         </mat-select>
@@ -62,11 +62,8 @@
 
             </div>
             <button mat-stroked-button color="primary" type="button" (click)="addItem()">
-
                 <mat-icon>add</mat-icon>
-
                 Add Item
-
             </button>
             <div class="button-container">
                 <button mat-stroked-button color="primary" type="button" (click)="cancel()">

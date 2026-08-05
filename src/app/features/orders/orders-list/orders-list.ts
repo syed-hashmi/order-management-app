@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -19,7 +19,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 
 import { NotificationService } from '../../../shared/services/notification-service';
-import { OrdersService } from '../services/orders-service';
+import { OrderService } from '../services/order-service';
 import { Order } from '../services/models/order.model';
 
 @Component({
@@ -42,6 +42,9 @@ import { Order } from '../services/models/order.model';
 })
 export class OrdersList implements OnInit {
 
+  @Input()
+  showRecent = false;
+
   displayedColumns: string[] = [
     'id',
     'customerName',
@@ -63,9 +66,10 @@ export class OrdersList implements OnInit {
   paginator!: MatPaginator;
 
   constructor(
-    private orderService: OrdersService,
+    private orderService: OrderService,
     private notification: NotificationService,
-    private destroyRef: DestroyRef
+    private destroyRef: DestroyRef,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -75,6 +79,7 @@ export class OrdersList implements OnInit {
 
   loadOrders(): void {
     this.orderService.getOrders(this.pageIndex + 1, this.pageSize)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: HttpResponse<Order[]>) => {
           this.dataSource.data = response.body ?? [];
@@ -117,6 +122,7 @@ export class OrdersList implements OnInit {
       .searchOrders(searchTerm,
         this.pageIndex + 1,
         this.pageSize)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: HttpResponse<Order[]>) => {
           this.dataSource.data =
@@ -143,4 +149,12 @@ export class OrdersList implements OnInit {
     }
   }
 
+  viewDetails(id: number) {
+    debugger;
+    this.router.navigate(['/order', id, 'view'], {
+      queryParams: {
+        returnUrl: this.showRecent ? '/' : '/orders'
+      }
+    });
+  }
 }

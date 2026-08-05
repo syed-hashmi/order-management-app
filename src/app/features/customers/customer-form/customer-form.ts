@@ -1,5 +1,5 @@
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, DestroyRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification-service';
 import { Customer } from '../services/models/customer.model';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-customer-form',
@@ -45,6 +46,7 @@ export class CustomerForm {
     private notification: NotificationService,
     private router: Router,
     private route: ActivatedRoute,
+    private destroyRef: DestroyRef,
   ) { }
 
   ngOnInit() {
@@ -59,6 +61,7 @@ export class CustomerForm {
       if (id) {
         this.customerId = +id;
         this.customerService.getCustomerById(+id)
+          .pipe(takeUntilDestroyed(this.destroyRef))
           .subscribe(customer => {
             this.isEditMode = true;
             this.customerForm.patchValue(customer);
@@ -106,6 +109,7 @@ export class CustomerForm {
     };
 
     this.customerService.createCustomer(customer)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (customer: Customer) => {
           debugger
@@ -135,6 +139,7 @@ export class CustomerForm {
     };
 
     this.customerService.updateCustomer(customer)
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (customer: Customer) => {
           this.notification.success('Customer updated successfully.');

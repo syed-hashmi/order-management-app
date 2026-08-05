@@ -1,1 +1,42 @@
-<p>customer-details works!</p>
+<mat-card class="customer-form-card">
+
+    <mat-card-header>
+        <mat-card-title>
+            Customer Details
+        </mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+        <h3>Customer Information</h3>
+        <div class="form-grid">
+            <div>
+                <strong>Customer ID#</strong>
+                <p>{{ customer?.id }}</p>
+            </div>
+
+            <div>
+                <strong>Customer Name</strong>
+                <p>{{ customer?.fullName }}</p>
+            </div>
+
+            <div>
+                <strong>Customer Email</strong>
+                <p>{{ customer?.email }}</p>
+            </div>
+
+             <div>
+                <strong>Created Date</strong>
+                <p>{{ customer?.createdDate }}</p>
+            </div>
+
+        </div>
+
+
+        <div class="button-container">
+            <button mat-stroked-button color="primary" routerLink="/customers">
+                Back
+            </button>
+        </div>
+    </mat-card-content>
+
+</mat-card>

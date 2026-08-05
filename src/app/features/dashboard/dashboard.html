@@ -1,49 +1,27 @@
 <h2 class="page-title">Dashboard</h2>
-
-
 <div class="cards">
     <mat-card>
-
         <mat-card-title>Total Customers</mat-card-title>
-
         <mat-card-content>
-
-            <h1>12</h1>
-            <!-- {{customers.length}} -->
-
+            <div class="stat-value">{{ totalCustomers }}</div>
         </mat-card-content>
-
     </mat-card>
 
-
     <mat-card>
-
         <mat-card-title>Total Products</mat-card-title>
-
         <mat-card-content>
-
-            <h1>12</h1>
-            <!-- {{customers.length}} -->
-
+            <div class="stat-value">{{ totalProducts }}</div>
         </mat-card-content>
-
     </mat-card>
 
-
-
     <mat-card>
-
         <mat-card-title>Total Orders</mat-card-title>
-
         <mat-card-content>
-
-            <h1>12</h1>
-            <!-- {{customers.length}} -->
-
+            <div class="stat-value">{{ totalOrders }}</div>
         </mat-card-content>
-
     </mat-card>
 </div>
 
 
 <h2 class="page-title"> Recent Orders </h2>
+<app-orders-list [showRecent]="true"></app-orders-list>

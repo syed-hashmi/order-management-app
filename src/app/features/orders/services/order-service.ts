@@ -8,23 +8,29 @@ import { Order } from './models/order.model';
 @Injectable({
   providedIn: 'root',
 })
-export class OrdersService {
+export class OrderService {
 
   private readonly apiUrl = `${environment.apiUrl}/orders`;
 
   constructor(private http: HttpClient) { }
 
-  getOrders(page: number, pageSize: number): Observable<HttpResponse<Order[]>> {
-    const params = new HttpParams()
-      .set('_page', page)
-      .set('_limit', pageSize)
-      .set('_sort', 'id')
-      .set('_order', 'desc');
+  getOrders(page?: number, pageSize?: number): Observable<HttpResponse<Order[]>> {
+    if (page && pageSize) {
+      const params = new HttpParams()
+        .set('_page', page)
+        .set('_limit', pageSize)
+        .set('_sort', 'id')
+        .set('_order', 'desc');
 
-    return this.http.get<Order[]>(this.apiUrl, {
-      params,
-      observe: 'response'
-    });
+      return this.http.get<Order[]>(this.apiUrl, {
+        params,
+        observe: 'response'
+      });
+    } else {
+      return this.http.get<Order[]>(this.apiUrl, {
+        observe: 'response'
+      });
+    }
   }
 
   getOrderById(id: number): Observable<Order> {
