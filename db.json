@@ -37,15 +37,15 @@
       "createdDate": "2026-07-13"
     },
     {
-      "id": 7,
-      "fullName": "Ali Wilson nn",
-      "email": "ali.wilson@example.com",
-      "phoneNumber": "",
-      "dateOfBirth": "",
-      "gender": "",
-      "address": "",
+      "fullName": "test",
+      "email": "test@test.com",
+      "phoneNumber": "+971554127",
+      "dateOfBirth": "2026-08-19T20:00:00.000Z",
+      "gender": "Female",
+      "address": "test address",
       "isActive": true,
-      "createdDate": "2026-08-05"
+      "createdDate": "2026-08-05",
+      "id": 7
     }
   ],
   "products": [
@@ -92,6 +92,15 @@
       "stockQuantity": 52,
       "isActive": true,
       "createdDate": "2026-08-05"
+    },
+    {
+      "name": "bb",
+      "sku": "test@test.com",
+      "price": 232,
+      "stockQuantity": 2323,
+      "isActive": true,
+      "createdDate": "2026-08-05",
+      "id": 7
     }
   ],
   "orders": [
@@ -310,6 +319,21 @@
       "customerName": "Michael Brown",
       "customerId": 3,
       "id": 15
+    },
+    {
+      "status": "Pending",
+      "items": [
+        {
+          "productId": 7,
+          "productName": "bb",
+          "quantity": 23,
+          "unitPrice": 232
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "Emily Davis",
+      "customerId": 4,
+      "id": 16
     }
   ]
 }

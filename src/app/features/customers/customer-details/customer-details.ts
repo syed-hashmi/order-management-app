@@ -1,10 +1,11 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterLink } from '@angular/router';
 import { CustomerService } from '../services/customer-service';
 import { Customer } from '../services/models/customer.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { NotificationService } from '../../../shared/services/notification-service';
 
 @Component({
   selector: 'app-customer-details',
@@ -20,29 +21,36 @@ export class CustomerDetails implements OnInit {
 
   constructor(
     private customerService: CustomerService,
-    private router: Router,
     private route: ActivatedRoute,
     private destroyRef: DestroyRef,
+    private notification: NotificationService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscribeToParam();
 
   }
 
-  subscribeToParam() {
-    this.route.paramMap.subscribe((params: any) => {
-      const id = params.get('id');
+  private subscribeToParam(): void {
+    this.route.paramMap
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params: ParamMap) => {
+        const id = params.get('id');
 
-      if (id) {
-        this.customerId = +id;
-        this.customerService.getCustomerById(+id)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe((customer: Customer) => {
-            this.customer = customer
-
-          });
-      }
-    });
+        if (id) {
+          this.customerId = +id;
+          this.customerService.getCustomerById(+id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe
+            ({
+              next: (customer: Customer) => {
+                this.customer = customer
+              },
+              error: (err) => {
+                this.notification.error('Failed to load customer details.')
+              }
+            })
+        }
+      });
   }
 }

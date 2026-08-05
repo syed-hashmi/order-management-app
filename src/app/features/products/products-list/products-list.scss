@@ -18,6 +18,10 @@ mat-paginator {
     margin-top: 16px;
 }
 
- ::ng-deep .cdk-overlay-container {
-  top: 65px;
+::ng-deep .cdk-overlay-container {
+    top: 65px;
+}
+
+.add-btn {
+    align-self: flex-start;
 }

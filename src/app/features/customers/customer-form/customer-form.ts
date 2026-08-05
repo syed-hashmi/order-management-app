@@ -1,5 +1,5 @@
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Component, DestroyRef } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -35,7 +35,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './customer-form.html',
   styleUrl: './customer-form.scss',
 })
-export class CustomerForm {
+export class CustomerForm implements OnInit {
   customerForm!: FormGroup;
   isEditMode!: boolean;
   customerId: number | null = null;
@@ -54,8 +54,10 @@ export class CustomerForm {
     this.subscribeToParam();
   }
 
-  subscribeToParam() {
-    this.route.paramMap.subscribe((params: any) => {
+  private subscribeToParam(): void {
+    this.route.paramMap
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe((params) => {
       const id = params.get('id');
 
       if (id) {
@@ -70,7 +72,7 @@ export class CustomerForm {
     });
   }
 
-  initForm() {
+  private initForm(): void {
     this.customerForm = this.fb.group({
       fullName: ['', [
         Validators.required,
@@ -92,11 +94,6 @@ export class CustomerForm {
     });
   }
 
-
-  get form() {
-    return this.customerForm.controls;
-  }
-
   createCustomer(): void {
     if (this.customerForm.invalid) {
       this.customerForm.markAllAsTouched();
@@ -112,7 +109,6 @@ export class CustomerForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (customer: Customer) => {
-          debugger
           this.notification.success('Customer added successfully.');
           this.reset();
           this.router.navigate(['/customers']);
@@ -152,7 +148,7 @@ export class CustomerForm {
       });
   }
 
-  reset(): void {
+  private reset(): void {
     this.customerForm.reset({
       fullName: '',
       email: '',
@@ -165,7 +161,6 @@ export class CustomerForm {
   }
 
   cancel(): void {
-    this.reset();
     this.router.navigate(['/customers']);
   }
 }

@@ -150,7 +150,6 @@ export class OrdersList implements OnInit {
   }
 
   viewDetails(id: number) {
-    debugger;
     this.router.navigate(['/order', id, 'view'], {
       queryParams: {
         returnUrl: this.showRecent ? '/' : '/orders'

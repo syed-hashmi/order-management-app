@@ -10,7 +10,6 @@ import { RouterLink } from '@angular/router';
 import { CustomerService } from '../services/customer-service';
 import { Customer } from '../services/models/customer.model';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification-service';
@@ -21,15 +20,11 @@ import { NotificationService } from '../../../shared/services/notification-servi
   imports: [
     MatTableModule,
     MatPaginatorModule,
-
     MatFormFieldModule,
     MatInputModule,
-
     MatButtonModule,
     MatIconModule,
-
     RouterLink,
-    MatSnackBarModule,
     ReactiveFormsModule
   ],
   templateUrl: './customers-list.html',
@@ -64,7 +59,7 @@ export class CustomersList implements OnInit {
     this.initializeSearch();
   }
 
-  private loadCustomers() {
+  private loadCustomers(): void {
     this.customerService.getCustomers(this.pageIndex + 1, this.pageSize)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -98,7 +93,7 @@ export class CustomersList implements OnInit {
       });
   }
 
-  private searchCustomers(searchTerm: string) {
+  private searchCustomers(searchTerm: string): void {
     this.customerService
       .searchCustomersByName(searchTerm, this.pageIndex + 1, this.pageSize)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -115,20 +110,16 @@ export class CustomersList implements OnInit {
 
   private updateCustomers(response: HttpResponse<Customer[]>): void {
     this.dataSource.data = response.body ?? [];
-    this.totalRecords = Number(response.headers.get('X-Total-Count'));
+    this.totalRecords = Number(response.headers.get('X-Total-Count')?? 0);
   }
 
-  viewCustomer(id: number) {
-    console.log('View', id);
-  }
-
-  deleteCustomer(id: number) {
+  deleteCustomer(id: number): void {
     this.customerService.deleteCustomer(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: Customer) => {
           this.notification.success('Customer deleted successfully.');
-          if (this.dataSource.data?.length == 1){
+          if (this.dataSource.data?.length === 1 && this.pageIndex > 0){
             this.pageIndex--;
           }
           this.loadCustomers();
