@@ -37,15 +37,15 @@
       "createdDate": "2026-07-13"
     },
     {
+      "id": 7,
       "fullName": "test customer",
       "email": "test@test.com",
       "phoneNumber": "+97123423",
       "dateOfBirth": "",
       "gender": "",
       "address": "",
-      "isActive": true,
-      "createdDate": "2026-08-05",
-      "id": 7
+      "isActive": false,
+      "createdDate": "2026-08-05"
     }
   ],
   "products": [
@@ -89,7 +89,7 @@
       "name": "Headphones",
       "sku": "HP1006",
       "price": 250,
-      "stockQuantity": 52,
+      "stockQuantity": 524,
       "isActive": true,
       "createdDate": "2026-08-05"
     }
@@ -376,6 +376,21 @@
       "customerName": "Michael Brown",
       "customerId": 3,
       "id": 19
+    },
+    {
+      "status": "Pending",
+      "items": [
+        {
+          "productId": 3,
+          "productName": "Mechanical Keyboard",
+          "quantity": 1,
+          "unitPrice": 300
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "test customer",
+      "customerId": 7,
+      "id": 20
     }
   ]
 }
