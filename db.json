@@ -37,12 +37,12 @@
       "createdDate": "2026-07-13"
     },
     {
-      "fullName": "test",
+      "fullName": "test customer",
       "email": "test@test.com",
-      "phoneNumber": "+971554127",
-      "dateOfBirth": "2026-08-19T20:00:00.000Z",
-      "gender": "Female",
-      "address": "test address",
+      "phoneNumber": "+97123423",
+      "dateOfBirth": "",
+      "gender": "",
+      "address": "",
       "isActive": true,
       "createdDate": "2026-08-05",
       "id": 7
