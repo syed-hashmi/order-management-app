@@ -92,15 +92,6 @@
       "stockQuantity": 52,
       "isActive": true,
       "createdDate": "2026-08-05"
-    },
-    {
-      "name": "bb",
-      "sku": "test@test.com",
-      "price": 232,
-      "stockQuantity": 2323,
-      "isActive": true,
-      "createdDate": "2026-08-05",
-      "id": 7
     }
   ],
   "orders": [
@@ -334,6 +325,57 @@
       "customerName": "Emily Davis",
       "customerId": 4,
       "id": 16
+    },
+    {
+      "status": "Pending",
+      "items": [
+        {
+          "productId": 5,
+          "productName": "USB-C Dock",
+          "quantity": 33,
+          "unitPrice": 450
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "Michael Brown",
+      "customerId": 3,
+      "id": 17
+    },
+    {
+      "status": "Completed",
+      "items": [
+        {
+          "productId": 4,
+          "productName": "27-inch Monitor",
+          "quantity": 3,
+          "unitPrice": 1100
+        },
+        {
+          "productId": 4,
+          "productName": "27-inch Monitor",
+          "quantity": 1,
+          "unitPrice": 1100
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "Michael Brown",
+      "customerId": 3,
+      "id": 18
+    },
+    {
+      "status": "Completed",
+      "items": [
+        {
+          "productId": 2,
+          "productName": "Wireless Mouse",
+          "quantity": 1,
+          "unitPrice": 120
+        }
+      ],
+      "orderDate": "2026-08-05",
+      "customerName": "Michael Brown",
+      "customerId": 3,
+      "id": 19
     }
   ]
 }

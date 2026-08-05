@@ -1,4 +1,4 @@
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
 import { Customer } from '../../customers/services/models/customer.model';
 import { Product } from '../../products/services/models/product.model';
@@ -20,6 +20,7 @@ import { ProductService } from '../../products/services/product-service';
 import { forkJoin } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { OrderItemForm } from '../services/models/order.model';
 
 @Component({
   selector: 'app-order-form',
@@ -39,7 +40,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './order-form.html',
   styleUrl: './order-form.scss',
 })
-export class OrderForm {
+export class OrderForm implements OnInit {
   orderForm!: FormGroup;
   customers: Customer[] = [];
   products: Product[] = [];
@@ -60,7 +61,7 @@ export class OrderForm {
     this.addItem();
   }
 
-  initOrderForm() {
+  private initOrderForm(): void {
     this.orderForm = this.fb.group({
       customer: ['', Validators.required],
       status: ['Pending', Validators.required],
@@ -73,18 +74,18 @@ export class OrderForm {
       customers: this.customerService.getCustomers(),
       products: this.productService.getProducts()
     })
-    .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe({
-      next: ({ customers, products }: { customers: HttpResponse<Customer[]>, products: HttpResponse<Product[]> }) => {
-        this.customers = customers?.body ?? [];
-        this.products = products?.body ?? [];
-      },
-      error: () => {
-        this.notification.error(
-          'Failed to load lookup data.'
-        );
-      }
-    });
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: ({ customers, products }: { customers: HttpResponse<Customer[]>, products: HttpResponse<Product[]> }) => {
+          this.customers = customers?.body ?? [];
+          this.products = products?.body ?? [];
+        },
+        error: () => {
+          this.notification.error(
+            'Failed to load lookup data.'
+          );
+        }
+      });
   }
 
   get items(): FormArray {
@@ -135,20 +136,17 @@ export class OrderForm {
       this.notification.warning('Please complete all order items.');
       return;
     }
-    debugger;
-
-    const { customer,items, ...formValue } = this.orderForm.getRawValue();
+    const { customer, items, ...formValue } = this.orderForm.getRawValue();
 
     const order = {
       ...formValue,
-      items: items.map((item: any) => ({
-        productId: item.product.id,
+      items: items.map((item: OrderItemForm) => ({
+        productId: item?.product.id,
         productName: item.product.name,
         quantity: item.quantity,
         unitPrice: item.unitPrice
       })),
       orderDate: new Date().toISOString().split('T')[0],
-      status: 'Pending',
       customerName: this.orderForm.getRawValue().customer?.fullName,
       customerId: this.orderForm.getRawValue()?.customer?.id
     };
@@ -165,9 +163,8 @@ export class OrderForm {
         }
       });
   }
- 
+
   cancel() {
-    this.orderForm.reset();
     this.router.navigate(['/orders']);
   }
 }

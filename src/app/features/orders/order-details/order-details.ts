@@ -1,6 +1,6 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
@@ -16,7 +16,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     MatCardModule,
     MatButtonModule,
     MatTableModule
@@ -57,10 +56,10 @@ export class OrderDetails implements OnInit {
     this.subscribeToParam();
   }
 
-  subscribeToParam() {
+  private subscribeToParam(): void {
     this.route.paramMap
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((params: any) => {
+      .subscribe((params) => {
         const id = params.get('id');
         if (id) {
           this.orderId = +id;
@@ -76,25 +75,28 @@ export class OrderDetails implements OnInit {
         next: (order: Order) => {
           this.order = order
           this.items = order.items
+          this.loadCustomer();
         },
         error: () => {
           this.notification.error(
             'Failed to load order.'
           );
-        },
-        complete: () => {
-          this.loadCustomer();
-        }
+        }    
       });
   }
 
-  private loadCustomer() {
+  private loadCustomer(): void {
     if (this.order.customerId)
       this.customerService
         .getCustomerById(this.order.customerId)
         .pipe(takeUntilDestroyed(this.destroyRef))
-        .subscribe((customer: Customer) => {
-          this.customer = customer;
+        .subscribe({
+          next: customer => {
+            this.customer = customer;
+          },
+          error: () => {
+            this.notification.error('Failed to load customer details.');
+          }
         });
   }
 

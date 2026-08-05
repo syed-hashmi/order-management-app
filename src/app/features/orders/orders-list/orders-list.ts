@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, input, OnInit, ViewChild } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
@@ -77,14 +77,12 @@ export class OrdersList implements OnInit {
     this.initializeSearch();
   }
 
-  loadOrders(): void {
+  private loadOrders(): void {
     this.orderService.getOrders(this.pageIndex + 1, this.pageSize)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: HttpResponse<Order[]>) => {
-          this.dataSource.data = response.body ?? [];
-          this.totalRecords =
-            Number(response.headers.get('X-Total-Count'));
+          this.updateOrders(response)
         },
         error: (err: HttpErrorResponse) => {
           this.notification.error(
@@ -117,7 +115,7 @@ export class OrdersList implements OnInit {
   }
 
 
-  private searchOrders(searchTerm: string) {
+  private searchOrders(searchTerm: string): void {
     this.orderService
       .searchOrders(searchTerm,
         this.pageIndex + 1,
@@ -125,10 +123,7 @@ export class OrdersList implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (response: HttpResponse<Order[]>) => {
-          this.dataSource.data =
-            response.body ?? [];
-          this.totalRecords =
-            Number(response.headers.get('X-Total-Count'));
+          this.updateOrders(response);
         },
         error: () => {
           this.notification.error(
@@ -149,11 +144,17 @@ export class OrdersList implements OnInit {
     }
   }
 
-  viewDetails(id: number) {
+  viewDetails(id: number): void {
     this.router.navigate(['/order', id, 'view'], {
       queryParams: {
         returnUrl: this.showRecent ? '/' : '/orders'
       }
     });
   }
+
+  private updateOrders(response: HttpResponse<Order[]>): void {
+    this.dataSource.data = response.body ?? [];
+    this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
+  }
+
 }

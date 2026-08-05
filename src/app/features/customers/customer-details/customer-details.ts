@@ -44,9 +44,9 @@ export class CustomerDetails implements OnInit {
             .subscribe
             ({
               next: (customer: Customer) => {
-                this.customer = customer
+                this.customer = customer;
               },
-              error: (err) => {
+              error: () => {
                 this.notification.error('Failed to load customer details.')
               }
             })

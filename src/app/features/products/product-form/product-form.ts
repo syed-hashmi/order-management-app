@@ -37,6 +37,7 @@ export class ProductForm implements OnInit {
   productForm!: FormGroup;
   isEditMode!: boolean;
   productId: number | null = null;
+  product: Product | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -54,23 +55,24 @@ export class ProductForm implements OnInit {
 
   private subscribeToParam(): void {
     this.route.paramMap
-     .pipe(takeUntilDestroyed(this.destroyRef))
-    .subscribe((params) => {
-      const id = params.get('id');
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        const id = params.get('id');
 
-      if (id) {
-        this.productId = +id;
-        this.productService.getProductById(+id)
-          .pipe(takeUntilDestroyed(this.destroyRef))
-          .subscribe(product => {
-            this.isEditMode = true;
-            this.productForm.patchValue(product);
-          });
-      }
-    });
+        if (id) {
+          this.productId = +id;
+          this.productService.getProductById(+id)
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe(product => {
+              this.product = product;
+              this.isEditMode = true;
+              this.productForm.patchValue(product);
+            });
+        }
+      });
   }
 
-  private initForm(): void{
+  private initForm(): void {
     this.productForm = this.fb.group({
       name: ['', [
         Validators.required,
@@ -82,17 +84,14 @@ export class ProductForm implements OnInit {
       ]],
       price: ['', [
         Validators.required,
+        Validators.min(0)
       ]],
       stockQuantity: ['', [
         Validators.required,
+        Validators.min(0)
       ]],
       isActive: [true]
     });
-  }
-
-
-  get form() {
-    return this.productForm.controls;
   }
 
   createProduct(): void {
@@ -132,7 +131,7 @@ export class ProductForm implements OnInit {
     const product = {
       id: this.productId,
       ...this.productForm.getRawValue(),
-      createdDate: new Date().toISOString().split('T')[0],
+      createdDate: this.product?.createdDate
     };
 
     this.productService.updateProduct(product)
@@ -160,7 +159,6 @@ export class ProductForm implements OnInit {
   }
 
   cancel(): void {
-    this.reset();
     this.router.navigate(['/products']);
   }
 }
