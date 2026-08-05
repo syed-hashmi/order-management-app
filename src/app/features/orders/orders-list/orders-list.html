@@ -1,4 +1,4 @@
-<h2  *ngIf="!showRecent">Orders</h2>
+<h2 *ngIf="!showRecent">Orders</h2>
 <div class="toolbar" *ngIf="!showRecent">
     <mat-form-field appearance="outline">
         <mat-label>Search Order</mat-label>
@@ -45,7 +45,7 @@
         </td>
     </ng-container>
 
-     <ng-container matColumnDef="items">
+    <ng-container matColumnDef="items">
         <th mat-header-cell *matHeaderCellDef>
             No Of Items
         </th>
@@ -62,7 +62,7 @@
             {{order.status}}
         </td>
     </ng-container>
- 
+
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef>
         </th>
@@ -78,8 +78,14 @@
     </tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns">
     </tr>
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" [attr.colspan]="displayedColumns.length">
+            No orders found.
+        </td>
+    </tr>
+
 </table>
 
-<mat-paginator *ngIf="!showRecent" [length]="totalRecords" [pageSize]="pageSize" [pageIndex]="pageIndex" [pageSizeOptions]="[5,10,20]"
-    (page)="pageChanged($event)" showFirstLastButtons>
+<mat-paginator *ngIf="!showRecent" [length]="totalRecords" [pageSize]="pageSize" [pageIndex]="pageIndex"
+    [pageSizeOptions]="[5,10,20]" (page)="pageChanged($event)" showFirstLastButtons>
 </mat-paginator>
