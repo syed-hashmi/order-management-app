@@ -1,9 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification-service';
-import { Customer } from '../../customers/services/models/customer.model';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -34,7 +33,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   templateUrl: './product-form.html',
   styleUrl: './product-form.scss',
 })
-export class ProductForm {
+export class ProductForm implements OnInit {
   productForm!: FormGroup;
   isEditMode!: boolean;
   productId: number | null = null;
@@ -53,8 +52,10 @@ export class ProductForm {
     this.subscribeToParam();
   }
 
-  subscribeToParam() {
-    this.route.paramMap.subscribe((params: any) => {
+  private subscribeToParam(): void {
+    this.route.paramMap
+     .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe((params) => {
       const id = params.get('id');
 
       if (id) {
@@ -69,7 +70,7 @@ export class ProductForm {
     });
   }
 
-  initForm() {
+  private initForm(): void{
     this.productForm = this.fb.group({
       name: ['', [
         Validators.required,
@@ -109,7 +110,6 @@ export class ProductForm {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (product: Product) => {
-          debugger
           this.notification.success('Product added successfully.');
           this.reset();
           this.router.navigate(['/products']);
@@ -149,14 +149,12 @@ export class ProductForm {
       });
   }
 
-  reset(): void {
+  private reset(): void {
     this.productForm.reset({
-      fullName: '',
-      email: '',
-      phoneNumber: '',
-      dateOfBirth: '',
-      gender: 'Male',
-      address: '',
+      name: '',
+      sku: '',
+      price: '',
+      stockQuantity: '',
       isActive: true
     });
   }

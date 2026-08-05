@@ -1,5 +1,5 @@
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Component, DestroyRef, ViewChild } from '@angular/core';
+import { Component, DestroyRef, OnInit, ViewChild } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,7 +7,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule, MatPaginator, PageEvent } from '@angular/material/paginator';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { RouterLink } from '@angular/router';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -24,12 +23,11 @@ import { Product } from '../services/models/product.model';
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    MatSnackBarModule,
     ReactiveFormsModule],
   templateUrl: './products-list.html',
   styleUrl: './products-list.scss',
 })
-export class ProductsList {
+export class ProductsList implements OnInit{
 
   displayedColumns: string[] = [
     'name',
@@ -59,7 +57,7 @@ export class ProductsList {
     this.initializeSearch();
   }
 
-  private loadProducts() {
+  private loadProducts(): void {
     this.productService.getProducts(this.pageIndex + 1, this.pageSize)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
@@ -73,7 +71,7 @@ export class ProductsList {
       })
   }
 
-  private initializeSearch(): void {
+  private initializeSearch() {
     this.searchControl.valueChanges
       .pipe(
         debounceTime(300),
@@ -93,7 +91,7 @@ export class ProductsList {
       });
   }
 
-  private searchProducts(searchTerm: string) {
+  private searchProducts(searchTerm: string): void{
     this.productService
       .searchProductsByName(searchTerm, this.pageIndex + 1, this.pageSize)
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -110,17 +108,17 @@ export class ProductsList {
 
   private updateProducts(response: HttpResponse<Product[]>): void {
     this.dataSource.data = response.body ?? [];
-    this.totalRecords = Number(response.headers.get('X-Total-Count'));
+    this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
   }
 
 
-  deleteProduct(id: number) {
+  deleteProduct(id: number): void{
     this.productService.deleteProduct(id)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: (res: Product) => {
           this.notification.success('Product deleted successfully.');
-          if (this.dataSource.data?.length == 1) {
+          if (this.dataSource.data?.length === 1 && this.pageIndex > 0) {
             this.pageIndex--;
           }
           this.loadProducts();
