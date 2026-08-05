@@ -1,0 +1,34 @@
+<mat-toolbar class="toolbar">
+
+    <button mat-icon-button class="mobile-menu" [matMenuTriggerFor]="menu">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span class="logo">Order Management</span>
+    <span class="spacer"></span>
+    <div class="desktop-menu">
+        <a mat-button routerLink="/" [routerLinkActiveOptions]="{exact:true}" routerLinkActive="active">
+            Dashboard
+        </a>
+        <a mat-button routerLink="/customers" routerLinkActive="active">
+            Customers
+        </a>
+        <a mat-button routerLink="/products" routerLinkActive="active">
+            Products
+        </a>
+        <a mat-button routerLink="/orders" routerLinkActive="active">
+            Orders
+        </a>
+    </div>
+</mat-toolbar>
+
+<mat-menu #menu="matMenu">
+    <button mat-menu-item routerLink="/">Dashboard</button>
+    <button mat-menu-item routerLink="/customers">Customers</button>
+    <button mat-menu-item routerLink="/products">Products</button>
+    <button mat-menu-item routerLink="/orders">Orders</button>
+</mat-menu>
+
+
+<div class="page-container">
+    <router-outlet />
+</div>

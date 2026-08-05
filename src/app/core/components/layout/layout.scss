@@ -1,0 +1,61 @@
+ 
+
+
+:host {
+    display: block;
+    height: 100vh;
+}
+
+.toolbar {
+    background:#1976d2;
+    color: #fff;
+    padding: 0 24px;
+}
+
+.logo {
+    font-size: 1.25rem;
+    font-weight: 600;
+    cursor: pointer;
+
+}
+
+.spacer {
+    flex: 1;
+}
+
+a[mat-button] {
+    color: #fff;
+    border-radius: 50px;
+}
+
+a[mat-button].active {
+    background: #fff;
+    color: #000;
+}
+
+.page-container {
+    padding: 24px;
+}
+.mobile-menu {
+    display: none;
+    color: white;
+}
+
+.desktop-menu {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+@media (max-width: 768px) {
+
+    .mobile-menu {
+        display: inline-flex;
+    }
+
+    .desktop-menu {
+        display: none;
+    }
+
+}

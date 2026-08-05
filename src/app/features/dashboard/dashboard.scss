@@ -1,0 +1,14 @@
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 20px;
+}
+
+mat-card{
+    padding: 2em;
+}
+
+
+.page-title {
+    margin-bottom: 24px;
+}
