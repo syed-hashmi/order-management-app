@@ -47,10 +47,11 @@ Starts the backend/API service.
 
 
 ### Optimizations Used
-
+(Automatic subscription cleanup using takeUntilDestroyed() to prevent memory leaks)
 (Added debounce time to efficiently manage api calls and search results)
 (Use distinctUntilChanged to prevent duplicate API calls)
-(used Lazy Loading routes for features when needed)
+(used Lazy Loading routes to reduce initial bundle size and improve application performance)
 (creted shared material imports constant for all form components- similarly we can create it for all list components in application)
-(comman notification service to avoid repeatation of snackbar code in all components)
+(created common notification service to avoid repeatation of snackbar code in all components)
+(Parallel lookup API loading using forkJoin() where appropriate (e.g., loading customers and products simultaneously for the order form).)
 
