@@ -21,6 +21,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { NotificationService } from '../../../shared/services/notification-service';
 import { OrderService } from '../services/order-service';
 import { Order } from '../services/models/order.model';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @Component({
   selector: 'app-orders-list',
@@ -35,7 +36,8 @@ import { Order } from '../services/models/order.model';
     MatButtonModule,
     MatIconModule,
     MatSnackBarModule,
-    RouterLink
+    RouterLink,
+    MatCheckboxModule
   ],
   templateUrl: './orders-list.html',
   styleUrl: './orders-list.scss'
@@ -51,6 +53,7 @@ export class OrdersList implements OnInit {
     'orderDate',
     'items',
     'status',
+    'completed',
     'actions'
   ];
 
@@ -174,5 +177,24 @@ export class OrdersList implements OnInit {
       });
   }
 
+
+  toggleCompleted(order: Order, completed: boolean): void {
+  const updatedOrder :Order= {
+    ...order,
+    status: completed ? 'Completed' : 'Pending'
+  };
+
+  this.orderService.updateOrder(updatedOrder)
+    .pipe(takeUntilDestroyed(this.destroyRef))
+    .subscribe({
+      next: () => {
+        this.loadOrders();
+        this.notification.success('Order status updated.');
+      },
+      error: () => {
+        this.notification.error('Failed to update order status.');
+      }
+    });
+}
 
 }

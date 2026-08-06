@@ -77,7 +77,7 @@ export class OrderForm implements OnInit {
     this.items.push(
       this.fb.group({
         product: ['', Validators.required],
-        quantity: [1, [Validators.required, Validators.min(1)]],
+        quantity: [1, [Validators.required, Validators.min(1), Validators.max(50)]],
         unitPrice: [0]
       })
     );

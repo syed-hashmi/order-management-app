@@ -44,6 +44,7 @@ Starts the backend/API service.
 * Create a new order.
 * View order details.
 * Delete order
+* checkbox will update order status to completed or pending
 * Navigate back from the order list page from details and create order pages
 
 

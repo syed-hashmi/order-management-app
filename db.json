@@ -216,22 +216,16 @@
       "status": "Completed",
       "items": [
         {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 2,
-          "unitPrice": 1100
-        },
-        {
-          "productId": 7,
-          "productName": "TV",
-          "quantity": 3,
-          "unitPrice": 2100
+          "productId": 3,
+          "productName": "Mechanical Keyboard",
+          "quantity": 1,
+          "unitPrice": 300
         }
       ],
       "orderDate": "2026-08-06",
-      "customerName": "Emily Davis",
-      "customerId": 4,
-      "id": 7
+      "customerName": "Michael Brown",
+      "customerId": 3,
+      "id": 8
     }
   ]
 }
