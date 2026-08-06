@@ -19,7 +19,7 @@ Starts the backend/API service.
 ### Dashboard
 
 * View total customers, total products, and total orders.
-* View a list of recent orders.
+* View a list of recent orders. (Reused orders list component)
 
 ### Customers
 
@@ -43,8 +43,14 @@ Starts the backend/API service.
 * Search orders by Order No.  (Added debounce time to efficiently manage api calls and search results)(Use distinctUntilChanged to prevent duplicate API calls.)
 * Create a new order.
 * View order details.
+* Delete order
 * Navigate back from the order list page from details and create order pages
 
+
+### Technologies Used
+* Angular 20
+* Angular Material controls
+* SCSS 
 
 ### Optimizations Used
 (Automatic subscription cleanup using takeUntilDestroyed() to prevent memory leaks)
