@@ -166,7 +166,7 @@
       ]
     },
     {
-      "status": "Pending",
+      "status": "Completed",
       "items": [
         {
           "productId": 3,
@@ -181,7 +181,7 @@
       "id": 5
     },
     {
-      "status": "Completed",
+      "status": "Pending",
       "items": [
         {
           "productId": 3,
