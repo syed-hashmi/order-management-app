@@ -10,7 +10,7 @@
 
                 <mat-form-field appearance="outline">
                     <mat-label>Name</mat-label>
-                    <input matInput formControlName="name" placeholder="Enter name" />
+                    <input matInput formControlName="name" placeholder="Enter name" maxlength="50"/>
 
                     <mat-error *ngIf="productForm.controls['name'].hasError('required')">
                         Name is required.

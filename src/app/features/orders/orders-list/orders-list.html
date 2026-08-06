@@ -72,6 +72,9 @@
                     visibility
                 </mat-icon>
             </button>
+             <button mat-icon-button color="accent" (click)="deleteOrder(order?.id)">
+                <mat-icon>delete</mat-icon>
+            </button>
         </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns">

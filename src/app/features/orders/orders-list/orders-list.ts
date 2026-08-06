@@ -157,4 +157,22 @@ export class OrdersList implements OnInit {
     this.totalRecords = Number(response.headers.get('X-Total-Count') ?? 0);
   }
 
+  deleteOrder(id: number): void {
+    this.orderService.deleteOrder(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (res: Order) => {
+          this.notification.success('Order deleted successfully.');
+          if (this.dataSource.data?.length === 1 && this.pageIndex > 0) {
+            this.pageIndex--;
+          }
+          this.loadOrders();
+        },
+        error: (error: HttpErrorResponse) => {
+          this.notification.error('Failed to delete order.');
+        }
+      });
+  }
+
+
 }

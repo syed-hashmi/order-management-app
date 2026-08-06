@@ -62,10 +62,19 @@
                 </div>
 
             </div>
-            <button mat-stroked-button color="primary" type="button" (click)="addItem()">
-                <mat-icon>add</mat-icon>
-                Add Item
-            </button>
+            <div class="display-total">
+                <button mat-stroked-button color="primary" type="button" (click)="addItem()">
+                    <mat-icon>add</mat-icon>
+                    Add Item
+                </button>
+            
+                <div class="order-total">
+                    <span>Total Amount </span>
+                    <strong>AED {{ totalAmount | number:'1.2-2' }}</strong>
+                </div>
+            </div>
+
+
             <div class="button-container">
                 <button mat-stroked-button color="primary" type="button" (click)="cancel()">
                     Cancel

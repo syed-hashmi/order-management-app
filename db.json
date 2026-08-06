@@ -38,14 +38,14 @@
     },
     {
       "id": 7,
-      "fullName": "test customer",
-      "email": "test@test.com",
-      "phoneNumber": "+97123423",
+      "fullName": "Test Customer",
+      "email": "test@est.com",
+      "phoneNumber": "",
       "dateOfBirth": "",
       "gender": "",
       "address": "",
       "isActive": false,
-      "createdDate": "2026-08-05"
+      "createdDate": "2026-08-06"
     }
   ],
   "products": [
@@ -92,6 +92,15 @@
       "stockQuantity": 524,
       "isActive": true,
       "createdDate": "2026-08-05"
+    },
+    {
+      "name": "TV",
+      "sku": "GHT778BB",
+      "price": 2100,
+      "stockQuantity": 5,
+      "isActive": true,
+      "createdDate": "2026-08-06",
+      "id": 7
     }
   ],
   "orders": [
@@ -183,214 +192,46 @@
       "id": 5
     },
     {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Wireless Mouse",
-          "quantity": 1,
-          "unitPrice": 120
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 7
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 5,
-          "productName": "USB-C Dock",
-          "quantity": 1,
-          "unitPrice": 450
-        },
-        {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 4,
-          "unitPrice": 1100
-        },
-        {
-          "productId": 6,
-          "productName": "Headphones",
-          "quantity": 1,
-          "unitPrice": 250
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Emily Davis",
-      "customerId": 4,
-      "id": 9
-    },
-    {
-      "status": "Pending",
+      "status": "Completed",
       "items": [
         {
           "productId": 3,
           "productName": "Mechanical Keyboard",
-          "quantity": 1,
+          "quantity": 2,
           "unitPrice": 300
         },
         {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 1,
-          "unitPrice": 1100
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Sarah Johnson",
-      "customerId": 2,
-      "id": 10
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
           "productId": 3,
           "productName": "Mechanical Keyboard",
-          "quantity": 1,
+          "quantity": 5,
           "unitPrice": 300
         }
       ],
-      "orderDate": "2026-08-05",
+      "orderDate": "2026-08-06",
       "customerName": "Michael Brown",
       "customerId": 3,
-      "id": 11
+      "id": 6
     },
     {
-      "status": "Pending",
+      "status": "Completed",
       "items": [
         {
           "productId": 4,
           "productName": "27-inch Monitor",
-          "quantity": 13,
+          "quantity": 2,
           "unitPrice": 1100
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 13
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 3,
-          "productName": "Mechanical Keyboard",
-          "quantity": 1,
-          "unitPrice": 300
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 14
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Wireless Mouse",
-          "quantity": 3,
-          "unitPrice": 120
         },
-        {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 1,
-          "unitPrice": 1100
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 15
-    },
-    {
-      "status": "Pending",
-      "items": [
         {
           "productId": 7,
-          "productName": "bb",
-          "quantity": 23,
-          "unitPrice": 232
+          "productName": "TV",
+          "quantity": 3,
+          "unitPrice": 2100
         }
       ],
-      "orderDate": "2026-08-05",
+      "orderDate": "2026-08-06",
       "customerName": "Emily Davis",
       "customerId": 4,
-      "id": 16
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 5,
-          "productName": "USB-C Dock",
-          "quantity": 33,
-          "unitPrice": 450
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 17
-    },
-    {
-      "status": "Completed",
-      "items": [
-        {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 3,
-          "unitPrice": 1100
-        },
-        {
-          "productId": 4,
-          "productName": "27-inch Monitor",
-          "quantity": 1,
-          "unitPrice": 1100
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 18
-    },
-    {
-      "status": "Completed",
-      "items": [
-        {
-          "productId": 2,
-          "productName": "Wireless Mouse",
-          "quantity": 1,
-          "unitPrice": 120
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "Michael Brown",
-      "customerId": 3,
-      "id": 19
-    },
-    {
-      "status": "Pending",
-      "items": [
-        {
-          "productId": 3,
-          "productName": "Mechanical Keyboard",
-          "quantity": 1,
-          "unitPrice": 300
-        }
-      ],
-      "orderDate": "2026-08-05",
-      "customerName": "test customer",
-      "customerId": 7,
-      "id": 20
+      "id": 7
     }
   ]
 }

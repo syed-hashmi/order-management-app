@@ -1,17 +1,7 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
 import { Customer } from '../../customers/services/models/customer.model';
 import { Product } from '../../products/services/models/product.model';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { OrderService } from '../services/order-service';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../shared/services/notification-service';
@@ -21,21 +11,12 @@ import { forkJoin } from 'rxjs';
 import { HttpResponse } from '@angular/common/http';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderItemForm } from '../services/models/order.model';
+import { FORM_IMPORTS } from '../../../shared/imports/material-imports';
 
 @Component({
   selector: 'app-order-form',
   imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatIconModule
+    ...FORM_IMPORTS
   ],
   templateUrl: './order-form.html',
   styleUrl: './order-form.scss',
@@ -162,6 +143,15 @@ export class OrderForm implements OnInit {
           this.notification.error('Failed to create order.');
         }
       });
+  }
+
+  get totalAmount(): number {
+    return this.items.controls.reduce((total, item) => {
+      const quantity = Number(item.get('quantity')?.value) || 0;
+      const unitPrice = Number(item.get('unitPrice')?.value) || 0;
+
+      return total + quantity * unitPrice;
+    }, 0);
   }
 
   cancel() {
