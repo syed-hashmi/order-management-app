@@ -35,17 +35,6 @@
       "fullName": "David guetta",
       "email": "david.guitta@example.com",
       "createdDate": "2026-07-13"
-    },
-    {
-      "id": 7,
-      "fullName": "Test Customer",
-      "email": "test@est.com",
-      "phoneNumber": "",
-      "dateOfBirth": "",
-      "gender": "",
-      "address": "",
-      "isActive": false,
-      "createdDate": "2026-08-06"
     }
   ],
   "products": [

@@ -68,8 +68,11 @@
 
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Address</mat-label>
-                    <textarea matInput rows="4" formControlName="address" placeholder="Enter address">
+                    <textarea matInput rows="4" formControlName="address" placeholder="Enter address" maxlength="250">
                     </textarea>
+                    <mat-hint align="end">
+                        Maximum 250 characters
+                    </mat-hint>
                 </mat-form-field>
             </div>
             <div class="button-container">
